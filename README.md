@@ -175,11 +175,11 @@ The API uses standard HTTP status codes and returns JSON responses with the foll
 
 ## Swagger
 
-Access the Swagger UI at [https://calmate-backend.vercel.app/docs](https://calmate-app.vercel.app/docs)
+Access the Swagger UI at [https://calmate-backend.vercel.app/docs](https://calmate-backend.vercel.app/docs)
 
 ## ReDoc
 
-Access the ReDoc documentation at [https://calmate-backend.vercel.app/redoc](https://calmate-app.vercel.app/docs)
+Access the ReDoc documentation at [https://calmate-backend.vercel.app/redoc](https://calmate-backend.vercel.app/docs)
 
 ## Contributing
 
