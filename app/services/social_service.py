@@ -8,7 +8,6 @@ from app.utils.appwrite_client import get_client
 from app.config import settings
 import uuid
 from datetime import datetime, timezone
-from app.services.notification_service import NotificationService  # Add this
 import json
 
 
@@ -21,7 +20,6 @@ class SocialService:
         self.friends_collection = '67592b05001baf89ebb5'    # Friendships collection ID
         # Friend requests collection ID
         self.friend_requests_collection = '67592a09000aff381e48'
-        self.notification_service = NotificationService()
 
     async def send_friend_request(self, from_user: str, to_user: str) -> Dict[str, Any]:
         try:
@@ -66,17 +64,6 @@ class SocialService:
                 }
             )
             print("Document created response:", response)
-
-            try:
-                # Try to send notification, but don't fail if it errors
-                await self.notification_service.send_friend_activity(
-                    to_user,
-                    from_user,
-                    "sent you a friend request"
-                )
-            except Exception as notif_error:
-                print(f"Notification error (non-critical): {str(notif_error)}")
-                # Continue execution even if notification fails
 
             return {
                 'id': response['$id'],

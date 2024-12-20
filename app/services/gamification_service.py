@@ -6,7 +6,6 @@ from appwrite.query import Query
 from app.utils.appwrite_client import get_client
 from app.config import settings
 from app.models.user import User
-from app.services.notification_service import NotificationService
 
 # Achievement definitions
 ACHIEVEMENTS = {
@@ -50,7 +49,6 @@ class GamificationService:
         self.users_collection = "6758085b003d85763089"
         self.food_logs_collection = "675928700015cab990d9"
         self.friends_collection = "67592b05001baf89ebb5"
-        self.notification_service = NotificationService()
 
     async def check_achievements(self, user_id: str) -> List[Dict[str, Any]]:
         """Check and award new achievements"""
@@ -102,13 +100,6 @@ class GamificationService:
                         'total_points': user.get('total_points', 0) + total_points
                     }
                 )
-                
-                # Send notifications for new achievements
-                for achievement in new_achievements:
-                    await self.notification_service.send_achievement_notification(
-                        user_id,
-                        ACHIEVEMENTS[achievement]['title']
-                    )
             
             return [ACHIEVEMENTS[ach] for ach in new_achievements]
             

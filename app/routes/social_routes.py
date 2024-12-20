@@ -3,7 +3,6 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from typing import List, Optional
 from app.services.database_service import DatabaseService
 from app.services.social_service import SocialService
-from app.services.notification_service import NotificationService
 from app.models.friendship import FriendRequest, Friendship
 from app.models.user import User
 from app.dependencies.auth import get_current_user
@@ -18,15 +17,9 @@ async def send_friend_request(
     user_id: str,
     current_user: User = Depends(get_current_user),
     social_service: SocialService = Depends(),
-    notification_service: NotificationService = Depends()
 ):
     try:
         request = await social_service.send_friend_request(current_user.id, user_id)
-        await notification_service.send_friend_activity(
-            user_id,
-            current_user.id,
-            "sent you a friend request!"
-        )
         return request
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -137,18 +130,10 @@ async def accept_friend_request(
     request_id: str,
     current_user: User = Depends(get_current_user),
     social_service: SocialService = Depends(),
-    notification_service: NotificationService = Depends()
 ):
     try:
         # Accept the request
         request = await social_service.accept_friend_request(request_id)
-        
-        # Send notification to the friend who sent the request
-        await notification_service.send_friend_activity(
-            request['from_user'],
-            current_user.id,
-            "accepted your friend request!"
-        )
         
         return request
     except Exception as e:
