@@ -193,3 +193,6 @@ Access the ReDoc documentation at [https://calmate-backend.vercel.app/redoc](htt
 
 For support, email [huzaifa.coder785@gmail.com](mailto:huzaifa.coder785@gmail.com) or create an issue in the repository.
 
+## Credits
+
+- [claude.ai 🔥](https://claude.ai/): Used for brainstorming and follwing best practices.
