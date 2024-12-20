@@ -39,15 +39,15 @@ async def startup_event():
     scheduler = init_scheduler()
     scheduler.start()
 
-# CORS Configuration
-origins = [
-    "http://localhost:3000",  # Frontend dev server
-    "https://calmate-app.vercel.app",    # Production frontend
-]
+# # CORS Configuration
+# origins = [
+#     "http://localhost:3000",  # Frontend dev server
+#     "https://calmate-app.vercel.app",    # Production frontend
+# ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
