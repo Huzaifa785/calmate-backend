@@ -42,7 +42,7 @@ async def startup_event():
 # CORS Configuration
 origins = [
     "http://localhost:3000",  # Frontend dev server
-    "https://calmate-app.vercel.com",    # Production frontend
+    "https://calmate-app.vercel.app",    # Production frontend
 ]
 
 app.add_middleware(
