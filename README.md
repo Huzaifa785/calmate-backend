@@ -175,11 +175,11 @@ The API uses standard HTTP status codes and returns JSON responses with the foll
 
 ## Swagger
 
-Access the Swagger UI at [https://calmate.vercel.app/docs](https://calmate.vercel.app/docs)
+Access the Swagger UI at [https://calmate-backend.vercel.app/docs](https://calmate-backend.vercel.app/docs)
 
 ## ReDoc
 
-Access the ReDoc documentation at [https://calmate.vercel.app/redoc](https://calmate.vercel.app/docs)
+Access the ReDoc documentation at [https://calmate-backend.vercel.app/redoc](https://calmate-backend.vercel.app/docs)
 
 ## Contributing
 
@@ -193,3 +193,6 @@ Access the ReDoc documentation at [https://calmate.vercel.app/redoc](https://cal
 
 For support, email [huzaifa.coder785@gmail.com](mailto:huzaifa.coder785@gmail.com) or create an issue in the repository.
 
+## Credits
+
+- [claude.ai 🔥](https://claude.ai/): Used for brainstorming and following best practices.
