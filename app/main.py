@@ -48,9 +48,6 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# Remove the @app.on_event("startup") since we're using lifespan context manager
-# The scheduler is now initialized in the lifespan context manager
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
