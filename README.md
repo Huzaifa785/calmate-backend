@@ -179,7 +179,7 @@ Access the Swagger UI at [https://calmate-backend.vercel.app/docs](https://calma
 
 ## ReDoc
 
-Access the ReDoc documentation at [https://calmate-backend.vercel.app/redoc](https://calmate-backend.vercel.app/docs)
+Access the ReDoc documentation at [https://calmate-backend.vercel.app/redoc](https://calmate-backend.vercel.app/redoc)
 
 ## Contributing
 
