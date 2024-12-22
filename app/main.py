@@ -1,4 +1,3 @@
-# app/main.py
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -16,15 +15,31 @@ from app.routes import (
 from app.config import settings
 from app.utils.appwrite_client import get_client
 from app.utils.scheduler import init_scheduler
+import logging
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup: Initialize services, database connections, etc.
     client = get_client()
-    print("Starting up CalMate API...")
+    logger.info("Starting up CalMate API...")
+    
+    # Initialize and start the scheduler
+    scheduler = init_scheduler()
+    # Store scheduler in app state
+    app.state.scheduler = scheduler
+    
     yield
+    
     # Shutdown: Clean up resources
-    print("Shutting down CalMate API...")
+    logger.info("Shutting down CalMate API...")
+    # Shut down scheduler gracefully
+    if hasattr(app.state, "scheduler"):
+        logger.info("Shutting down scheduler...")
+        app.state.scheduler.shutdown()
 
 app = FastAPI(
     title="CalMate API",
@@ -33,17 +48,8 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-@app.on_event("startup")
-async def startup_event():
-    # Initialize and start the scheduler
-    scheduler = init_scheduler()
-    scheduler.start()
-
-# # CORS Configuration
-# origins = [
-#     "http://localhost:3000",  # Frontend dev server
-#     "https://calmate-app.vercel.app",    # Production frontend
-# ]
+# Remove the @app.on_event("startup") since we're using lifespan context manager
+# The scheduler is now initialized in the lifespan context manager
 
 app.add_middleware(
     CORSMiddleware,
@@ -83,10 +89,12 @@ app.include_router(streak_routes.router, prefix="/api/v1/streaks", tags=["Streak
 # Health check endpoint
 @app.get("/health")
 async def health_check():
+    scheduler_status = "running" if hasattr(app.state, "scheduler") and app.state.scheduler.running else "stopped"
     return {
         "status": "healthy",
         "version": app.version,
-        "environment": settings.ENVIRONMENT
+        "environment": settings.ENVIRONMENT,
+        "scheduler_status": scheduler_status
     }
 
 # API documentation customization
@@ -99,5 +107,6 @@ if __name__ == "__main__":
         "app.main:app",
         host="0.0.0.0",
         port=8000,
-        reload=True if settings.ENVIRONMENT == "development" else False
+        reload=True if settings.ENVIRONMENT == "development" else False,
+        log_level="info"
     )
